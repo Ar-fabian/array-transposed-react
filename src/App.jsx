@@ -1,27 +1,31 @@
 import { useEffect, useRef, useState } from 'react';
 import './App.css'
+import { Form } from './components/form/Form';
+import { InputsGrid } from './components/inputsGrid/InputsGrid';
 import { useForm } from './hooks/useForm'
 
 function App() {
+  const [dimensions, setDimensions] = useState({
+    rowNumber:0, 
+    columnNumber:0,
+    amountCells:0
+  })
   const [numberCells, setNumberCells] = useState(0);
   const [cells, setCells] = useState([]);
   const [cellsTr, setCellsTr] = useState([]);
   const [showGrid, setShowGrid] = useState(false);
-  const { formState, rows, columns, onInputChange} = useForm({
-    rows:'',
-    columns:''
-  });
-  const rowNumber = parseInt( rows );
-  const columnNumber = parseInt( columns );
+  const [show, setShow] = useState(false);
+  // const { formState, rows, columns, onInputChange} = useForm({
+  //   rows:'',
+  //   columns:''
+  // });
+  
   const containerRef = useRef();
   const container2Ref = useRef();
   const transponerRef = useRef();
 
 
-  useEffect(() => {
-    let amountCells = rowNumber * columnNumber;
-    setNumberCells( amountCells );
-  }, [ formState]);
+
 
   const createNewGrid = ( array, rows, columns ) =>{
     let i = 0;
@@ -85,57 +89,50 @@ function App() {
     transponerRef.current.style.display = 'block';
   }
 
-  const validateInputs = () => {
-    (numberCells > 0)
-      ?createInputs()
+  const validateInputs = ( amountCells ) => {
+    ( amountCells > 0)
+      ? setShow( true )
       : alert('No se puede crear una matriz con estos valores')
   }
   
-  const getParameters = (e) =>{
-    e.preventDefault();
-    setShowGrid(false);
-    setCells([]);
-    setCellsTr([]);
-    validateInputs();
+  const getParameters = ( rowNumber, columnNumber, amountCells ) =>{
+    setDimensions({rowNumber, columnNumber, amountCells});
+    validateInputs( amountCells );
+    // setShowGrid(false);
+    // setCells([]);
+    // setCellsTr([]);
+    // validateInputs();
   }
   
 
   return (<>
-    <form className='form'>
-      <div className='form__field'>
-        <label htmlFor="">Filas</label>
-        <input 
-          type="text"
-          name='rows'
-          value={rows}
-          onChange={ onInputChange }
-          />
-      </div>
-      <div className='form__field'>
-        <label htmlFor="">Columnas</label>
-        <input 
-          type="text"
-          name='columns'
-          value={ columns }
-          onChange={ onInputChange }
-          />
-      </div>
 
-      <button onClick={ getParameters }>Crear</button>
-    </form>
-    <section className='container' ref={ containerRef } >
+    <Form getParameters={ getParameters }/>
     {
-      showGrid && cells.map( cell =>{
-        return cell
-      })
+      show && <InputsGrid 
+        amountCells={ dimensions.amountCells }
+        rowNumber={ dimensions.rowNumber }
+        columnNumber={ dimensions.columnNumber }
+
+        />
     }
-    </section>
-    <button 
+    {
+      show && <button 
       className='btnTransponer'
       ref={ transponerRef }
       onClick={ validateCells }
       > Transponer 
       </button>
+    }
+
+
+
+
+
+
+
+    
+
       <section className='container' ref={ container2Ref } >
       {
         showGrid && cellsTr.map( cellTr =>{
