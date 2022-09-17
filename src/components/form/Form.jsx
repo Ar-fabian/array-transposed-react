@@ -1,19 +1,14 @@
-import { useEffect } from "react";
+import { getNumericDimensions } from "../../helpers/getNumericDimensions";
 import { useForm } from "../../hooks/useForm";
 
 export const Form = ( { getParameters } ) => {
-    let rowNumber;
-    let columnNumber;
-    let amountCells;
 
     const { rows, columns, onInputChange} = useForm({
         rows:'',
         columns:''
     });
 
-    rowNumber = parseInt( rows );
-    columnNumber = parseInt( columns );
-    amountCells = rowNumber * columnNumber;
+    const { rowNumber, columnNumber, amountCells } = getNumericDimensions( rows, columns );
 
     const sendData = (e) =>{
         e.preventDefault();

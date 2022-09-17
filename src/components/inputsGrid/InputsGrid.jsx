@@ -1,20 +1,7 @@
-import { useEffect, useState } from "react";
-import { useForm } from "../../hooks/useForm";
+import { useEffect } from "react";
 
-export const InputsGrid = ({amountCells, columnNumber, rowNumber}) => {
-    const [inputsNames, setInputsNames] = useState({})
-    const [cells, setCells] = useState([]);
-
-    const { formState, onInputChange } = useForm(inputsNames);
-    useEffect(() => {
-        const names = cells.map(({props}) =>{
-            const { name } = props
-            return name;
-        });
-        setInputsNames( names );
-    }, [cells])
-
-
+export const InputsGrid = ({amountCells, columnNumber, rowNumber, setCells, cells}) => {
+    
     const rowsColumns ={
         'gridTemplateColumns': `repeat(${ columnNumber}, minmax(5px,1fr) )`,
         'gridTemplateRows': `repeat(${ rowNumber }, min-content )`
@@ -23,16 +10,10 @@ export const InputsGrid = ({amountCells, columnNumber, rowNumber}) => {
     useEffect(() => {
         let temp = new Array(amountCells);
         for(let i=0; i < amountCells; i++){
-          temp[i] = <input 
-                        key={i} 
-                        className='input' 
-                        name={'input' + i} 
-                        // value={ 'input' + i}
-                        onChange={ onInputChange }    
-                        />
+          temp[i] = <input key={i} className='input' />
         }
+        
         setCells(temp);
-
     }, [amountCells])
     
 
