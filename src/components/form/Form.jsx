@@ -7,7 +7,7 @@ export const Form = ( { getParameters } ) => {
         rows:'',
         columns:''
     });
-
+  
     const { rowNumber, columnNumber, amountCells } = getNumericDimensions( rows, columns );
 
     const sendData = (e) =>{

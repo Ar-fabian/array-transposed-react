@@ -9,7 +9,8 @@ export const TransposedGrid = ({rowNumber, columnNumber, amountCells, data}) => 
         'gridTemplateRows': `repeat(${ columnNumber }, min-content )`
     }
 
-    const createNewGrid = ( array ) =>{
+    useEffect(() => {
+        const  array  = createTransposedArray( rowNumber, columnNumber, data );
         let i = 0;
         let temp = new Array(amountCells);
         for(let column=0; column< columnNumber ; column++){
@@ -19,11 +20,6 @@ export const TransposedGrid = ({rowNumber, columnNumber, amountCells, data}) => 
             }
         }
         setCells(temp);
-    }
-
-    useEffect(() => {
-        const  transposedArray  = createTransposedArray( rowNumber, columnNumber, data );
-        createNewGrid( transposedArray );
     }, [rowNumber, columnNumber, data])
     
   return (
