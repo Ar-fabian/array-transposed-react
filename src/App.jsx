@@ -11,7 +11,7 @@ function App() {
     rowNumber:0, 
     columnNumber:0,
     amountCells:0
-  })
+  });
   const [cells, setCells] = useState([]);
   const [data, setData] = useState([]);
   const [showTransposed, setShowTransposed] = useState(false);

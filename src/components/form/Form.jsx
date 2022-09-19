@@ -8,11 +8,13 @@ export const Form = ( { getParameters } ) => {
         columns:''
     });
   
-    const { rowNumber, columnNumber, amountCells } = getNumericDimensions( rows, columns );
+    const { rowNumber, columnNumber, amountCells, message } = getNumericDimensions( rows, columns );
 
     const sendData = (e) =>{
         e.preventDefault();
-        getParameters( rowNumber, columnNumber, amountCells);
+        ( message !== '')
+          ?alert(message)
+          :getParameters( rowNumber, columnNumber, amountCells);
     }
  
   return (
